@@ -1,0 +1,218 @@
+:root {
+  /* Background Colors
+  --bg-gradient-start: #f3e8ff;
+  --bg-gradient-end: #e9d5ff;
+  --card-bg: #ffffff;
+  --input-bg: #ffffff;
+  --button-bg: #9333ea;
+  --button-hover: #7c3aed;
+  --icon-container-bg: #f3f4f6;
+  --social-button-hover: #f9fafb;
+  /* Text Colors */
+  /* --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-label: #374151;
+  --text-placeholder: #9ca3af;
+  --text-link: #9333ea;
+  --text-link-hover: #7c3aed;
+  --text-divider: #6b7280;
+  --text-white: #ffffff; */
+  /* Border Colors */
+  /* --border-default: #e5e7eb;
+  --border-focus: #9333ea; */
+  /* Shadow */
+  /* --shadow-card: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-focus: 0 0 0 3px rgba(147, 51, 234, 0.1); */ 
+
+
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+
+  color-scheme: light dark;
+
+  /* background-color: #242424; */
+
+  /* font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
+body {
+  margin: 40px 450px;
+  display: flex;
+  place-items: center;
+  
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 550px;
+  height: 600px;
+  background: linear-gradient(135deg, #f6f4f9, #f3ecfa);
+  border-radius: 12px;
+}
+.headerText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; 
+}
+.headerText img {
+  /* margin-top: 0; */
+}
+.headerText h1{
+  font-size: 38px;
+  font-weight: 600;
+  color: black;
+  text-align: center;
+  margin: 0;
+}
+.headerText p {
+  font-size: 22px;
+  color: #213547;
+  font-weight: 500;
+  margin: 0 0 20px;
+}
+.headerBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.headerBtn button{
+  width: 160px;
+  height: 60px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 0px;
+  margin:4px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.headerBtn button:hover {
+  background: #213547;
+  transition: 0.3s;
+}
+.headerBtn img {
+  width: 25px;
+  height: 25px;
+}
+
+
+.email {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 8px;
+  margin: 6px;
+}
+.email label {
+  font-size: 20px;
+  font-weight: 500;
+  color: #213547;
+  margin-left: 2px;
+}
+input {
+  width:470px;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+input::placeholder {
+  padding: 4px 10px;
+  letter-spacing: 1px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  color: #111827;
+}
+input:focus::placeholder {
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+}
+.password {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  gap: 8px;
+  margin: 6px;
+}
+.password label{
+  font-size: 20px;
+  font-weight: 500;
+  color: #213547;
+  margin-left: 2px;  
+}
+.passwordBtn {
+    position: absolute;
+    right: 500px;
+    bottom: 264px;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border-radius: 50%;
+    border: none;
+    color: rgb(55, 55, 55);
+}
+
+
+
+
+.forgetPswd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 400px;
+}
+
+
+
+
+
+/* 
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+} */
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
