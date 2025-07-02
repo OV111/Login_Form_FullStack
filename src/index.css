@@ -22,7 +22,7 @@
   --border-focus: #9333ea; */
   /* Shadow */
   /* --shadow-card: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-focus: 0 0 0 3px rgba(147, 51, 234, 0.1); */ 
+  --shadow-focus: 0 0 0 3px rgba(147, 51, 234, 0.1); */
 
 
 
@@ -38,57 +38,62 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; */
 }
+
 body {
-  margin: 40px 450px;
+  margin: 25px 450px;
   display: flex;
   place-items: center;
-  
 }
+
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 550px;
-  height: 600px;
+  height: 630px;
   background: linear-gradient(135deg, #f6f4f9, #f3ecfa);
   border-radius: 12px;
 }
+
 .headerText {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; 
+  flex-direction: column;
+  margin-top: 40px;
 }
-.headerText img {
-  /* margin-top: 0; */
-}
-.headerText h1{
+
+.headerText h1 {
   font-size: 38px;
   font-weight: 600;
   color: black;
   text-align: center;
   margin: 0;
 }
+
 .headerText p {
   font-size: 22px;
   color: #213547;
   font-weight: 500;
-  margin: 0 0 20px;
+  margin: 0 10px 15px;
+  /* margin: 0 0 20px; */
 }
+
 .headerBtn {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.headerBtn button{
+
+.headerBtn button {
   width: 160px;
   height: 60px;
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   padding: 0px;
-  margin:4px;
+  margin: 0 4px;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
@@ -96,32 +101,62 @@ body {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 .headerBtn button:hover {
   background: #213547;
   transition: 0.3s;
 }
+
 .headerBtn img {
   width: 25px;
   height: 25px;
 }
 
+.separator {
+  position: relative;
+  width: 100%;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.separator-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.separator-text {
+  background-color: #f6f4f9;
+  padding: 0 15px;
+  color: #6b7280;
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+}
 
 .email {
   display: flex;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-  gap: 8px;
+  gap: 6px;
   margin: 6px;
 }
+
 .email label {
   font-size: 20px;
   font-weight: 500;
   color: #213547;
   margin-left: 2px;
 }
-input {
-  width:470px;
+
+.email input {
+  width: 470px;
   height: 40px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
@@ -129,89 +164,147 @@ input {
   outline: none;
   transition: all 0.2s ease-in-out;
 }
-input::placeholder {
-  padding: 4px 10px;
+
+.email input::placeholder {
+  padding: 8px 10px;
   letter-spacing: 1px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   color: #111827;
 }
-input:focus::placeholder {
+
+.email input:focus::placeholder {
   opacity: 0;
   transition: 0.2s ease-in-out;
 }
+
 .password {
   display: flex;
   justify-content: start;
   align-items: start;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   margin: 6px;
 }
-.password label{
+
+.password label {
   font-size: 20px;
   font-weight: 500;
   color: #213547;
-  margin-left: 2px;  
+  margin-left: 2px;
 }
+
 .passwordBtn {
-    position: absolute;
-    right: 500px;
-    bottom: 264px;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    background: none;
-    border-radius: 50%;
-    border: none;
-    color: rgb(55, 55, 55);
+  position: absolute;
+  right: 495px;
+  bottom: 231px;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border-radius: 50%;
+  border: none;
+  color: rgb(55, 55, 55);
+  cursor: pointer;
 }
 
+.password input {
+  width: 470px;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
 
+.password input::placeholder {
+  padding: 8px 10px;
+  letter-spacing: 1px;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  color: #111827;
+}
 
+.password input:focus::placeholder {
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+}
 
 .forgetPswd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  gap: 5px;
+}
+
+.forgetPswd input {
+  width: 18px;
+  height: 18px;
+  border-radius: 12px;
+  accent-color: #6366f1;
+  cursor: pointer;
+}
+
+.forgetPswd p {
+  font-size: 16px;
+  margin: 0;
+  color: #213547;
+}
+
+.forgetPswd a {
+  margin-left: 140px;
+  color: #6366f1;
+}
+
+.signinPart {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin: 20px 20px 8px;
+}
+
+.signinPart button {
   width: 400px;
-}
-
-
-
-
-
-/* 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  height: 40px;
+  font-size: 24px;
+  background: #6366f1;
+  letter-spacing: 1px;
+  border: none;
+  border-radius: 12px;
   cursor: pointer;
-  transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
+
+.signinPart button:hover {
+  background: #213547;
+  transition: 0.3s;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-} */
+
+.signinPart p {
+  color: #213547;
+}
+
+.signinPart a {
+  color: #6366f1;
+  text-decoration: none;
+  margin-bottom: 0px;
+}
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
