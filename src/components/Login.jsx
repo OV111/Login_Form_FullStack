@@ -8,41 +8,50 @@ export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
   const [email, setEmail] = useState(undefined);
   const [password, setPassword] = useState(undefined);
-  const [emailError,setEmailError] = useState("")
-  const [passwordError,setPasswordError] = useState("")
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [state,setState] = useState(false)
 
   const validateEmail = (email) => {
-    const trimmedEmail = email.trim().toLowerCase()
-    const [username,domain] = trimmedEmail.split('@')
-    if(!trimmedEmail.includes("@") || trimmedEmail.split("@").length !== 2) {
-      return false
+    const trimmedEmail = email.trim().toLowerCase();
+    const [username, domain] = trimmedEmail.split("@");
+    if (
+      !trimmedEmail.includes("@") ||
+      trimmedEmail.split("@").length !== 2 ||
+      trimmedEmail.includes(" ")
+    ) {
+      return false;
     }
-    if(!username || !domain) {
-      return false
-    }
-    if(!domain.includes(".")) {
-      return false
-    }
-    if(trimmedEmail.includes(" ")) {
-      return false
-    }
-    return true
-  }
+    return !!(username && domain && domain.includes("."));
+  };
 
   const validatePassword = (password) => {
+    return password.trim().length >= 6;
+  };
 
-  }
-
-
+  const disableBtn = () => {
+    return !email || !password || emailError !== "" || passwordError !== "";
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    (!email && !password) 
-    
+
+    const emailValid = validateEmail(email);
+    const passwordValid = validatePassword(password);
+
+    setEmailError(emailValid ? "" : "Invalid email address");
+    setPasswordError(passwordValid ? "" : "Invalid password length");
+
+    if(email && password) {
+      setState(true)
+    }
+    console.log("Form Submitted: ");
   };
 
   return (
     <React.Fragment>
-      <div className="container">
+
+  {!state ? (
+    <div className="container">
         <div className="headerText">
           <img
             src="src\assets\around-the-world.png"
@@ -78,11 +87,16 @@ export const Login = () => {
               type="email"
               placeholder="Enter your Email"
               onChange={(e) => {
-                const value = e.target.value
+                const value = e.target.value;
                 setEmail(value);
-                setEmailError(validateEmail(value))
+                if (validateEmail(value)) {
+                  setEmailError("");
+                } else {
+                  setEmailError("Invalid Email address");
+                }
               }}
             />
+            {emailError && <p className="errorText">{emailError}</p>}
           </div>
           <div className="password">
             <label htmlFor="">Password</label>
@@ -91,23 +105,30 @@ export const Login = () => {
               id="password"
               placeholder="Enter your Password"
               onChange={(e) => {
-                setPassword(e.target.value);
+                const value = e.target.value;
+                setPassword(value);
+                if (validatePassword(value)) {
+                  setPasswordError("");
+                } else {
+                  setPasswordError("Inavlid Password Length");
+                }
               }}
               required
-            />
+              />
+            {passwordError && <p className="errorText">{passwordError}</p>}
             <button
               className="passwordBtn"
               type="button"
               onClick={() => {
                 setshowPasswd(!showPasswd);
               }}
-            >
+              >
               {showPasswd ? (
                 <svg
-                  className="eye-icon"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
+                className="eye-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
                   strokeWidth="2"
                 >
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
@@ -115,12 +136,12 @@ export const Login = () => {
                 </svg>
               ) : (
                 <svg
-                  className="eye-icon"
+                className="eye-icon"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                >
+                  >
                   <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
                   <line x1="1" y1="1" x2="23" y2="23" />
                 </svg>
@@ -136,12 +157,7 @@ export const Login = () => {
             <div className="separator-line"></div>
           </div>
           <div className="signinPart">
-            <button
-            className="signinBtn"
-              type="submit"
-              on
-                //  disabled
-            >
+            <button className="signinBtn" type="submit" disabled={disableBtn()}>
               Sign in
             </button>
             <p>
@@ -149,7 +165,14 @@ export const Login = () => {
             </p>
           </div>
         </form>
+      </div>  
+    ) : (
+      <div className="successPage">
+        <h2>Loggin Successful</h2>
+        <p>Welcome back</p>
       </div>
+    )}
     </React.Fragment>
-  );
+  )
+
 };
