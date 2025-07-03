@@ -145,7 +145,7 @@ body {
   justify-content: start;
   align-items: start;
   gap: 6px;
-  margin: 6px;
+  margin: 4px 6px;
 }
 
 .email label {
@@ -158,11 +158,14 @@ body {
 .email input {
   width: 470px;
   height: 40px;
+  color: #111827;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   outline: none;
+  padding: 0 10px;
   transition: all 0.2s ease-in-out;
+  font-size: 16px;
 }
 
 .email input::placeholder {
@@ -170,13 +173,20 @@ body {
   letter-spacing: 1px;
   font-size: 16px;
   font-weight: 500;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: #111827;
 }
 
 .email input:focus::placeholder {
   opacity: 0;
   transition: 0.2s ease-in-out;
+}
+
+.errorText {
+  font-size: 14px;
+  color: red;
+  padding: 0;
+  margin: 0px 10px;
 }
 
 .password {
@@ -198,7 +208,7 @@ body {
 .passwordBtn {
   position: absolute;
   right: 495px;
-  bottom: 231px;
+  bottom: 213px;
   justify-content: center;
   align-items: center;
   width: 30px;
@@ -213,11 +223,14 @@ body {
 .password input {
   width: 470px;
   height: 40px;
+  padding: 0px 10px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   outline: none;
   transition: all 0.2s ease-in-out;
+  color: #111827;
+  font-size: 16px;
 }
 
 .password input::placeholder {
@@ -225,7 +238,7 @@ body {
   letter-spacing: 1px;
   font-size: 16px;
   font-weight: 500;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: #111827;
 }
 
@@ -287,12 +300,43 @@ body {
 
 .signinPart p {
   color: #213547;
+  /* margin-bottom: 5px; */
 }
 
 .signinPart a {
   color: #6366f1;
   text-decoration: none;
   margin-bottom: 0px;
+}
+
+
+
+.successPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 120px 70px;
+  width: 380px;
+  height: 280px;
+  background: linear-gradient(135deg, #f6f4f9, #f3ecfa);
+  border-radius: 12px;
+}
+
+.successPage h2 {
+  font-size: 28px;
+  color: #213547;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+}
+
+.successPage p {
+  font-size: 24px;
+  color: #6366f1;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @media (prefers-color-scheme: light) {
