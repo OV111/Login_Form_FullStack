@@ -6,10 +6,38 @@ import { useState } from "react";
 
 export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
-  // const [] = useState()
+  const [email, setEmail] = useState(undefined);
+  const [password, setPassword] = useState(undefined);
+  const [emailError,setEmailError] = useState("")
+  const [passwordError,setPasswordError] = useState("")
+
+  const validateEmail = (email) => {
+    const trimmedEmail = email.trim().toLowerCase()
+    const [username,domain] = trimmedEmail.split('@')
+    if(!trimmedEmail.includes("@") || trimmedEmail.split("@").length !== 2) {
+      return false
+    }
+    if(!username || !domain) {
+      return false
+    }
+    if(!domain.includes(".")) {
+      return false
+    }
+    if(trimmedEmail.includes(" ")) {
+      return false
+    }
+    return true
+  }
+
+  const validatePassword = (password) => {
+
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    (!email && !password) 
+    
   };
 
   return (
@@ -46,7 +74,15 @@ export const Login = () => {
         <form onSubmit={handleSubmit}>
           <div className="email">
             <label htmlFor="email">Email address</label>
-            <input type="email" placeholder="Enter your Email" />
+            <input
+              type="email"
+              placeholder="Enter your Email"
+              onChange={(e) => {
+                const value = e.target.value
+                setEmail(value);
+                setEmailError(validateEmail(value))
+              }}
+            />
           </div>
           <div className="password">
             <label htmlFor="">Password</label>
@@ -54,6 +90,9 @@ export const Login = () => {
               type={showPasswd ? "text" : "password"}
               id="password"
               placeholder="Enter your Password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
               required
             />
             <button
@@ -98,8 +137,10 @@ export const Login = () => {
           </div>
           <div className="signinPart">
             <button
+            className="signinBtn"
               type="submit"
-              //    disabled={}
+              on
+                //  disabled
             >
               Sign in
             </button>
