@@ -1,10 +1,11 @@
-import { Login } from "./components/Login";
 import React from "react"
-
+import { Login } from "./components/Login";
+import {SignUp} from "./components/SignUp"
 export const App = () => {
   return (
     <React.Fragment>
-      <Login/>
+      <Login />
+      <SignUp />
     </React.Fragment>
   )
 }

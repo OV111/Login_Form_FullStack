@@ -3,6 +3,7 @@
 // ➔ Disable button when all fields not filled
 import React from "react";
 import { useState } from "react";
+import {useNavigate} from "react-router-dom"
 
 export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
@@ -44,7 +45,7 @@ export const Login = () => {
     if (email && password) {
       setState(true);
     }
-    console.log("Form Submitted: ");
+    console.log(`Form Submitted: ${email,password}`);
   };
 
   return (
