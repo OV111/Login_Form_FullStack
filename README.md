@@ -1,4 +1,4 @@
-# Login Form (React)
+# 🔐 Login Form (React)
 
 A simple login form built using React and JSX, featuring field validation, error messaging, disabled button states, and persistent data storage via localStorage.
 
@@ -8,8 +8,17 @@ A simple login form built using React and JSX, featuring field validation, error
  - 🔒 Submit button is disabled until all fields are valid
  - 💾 localStorage is used to persist user input even on refresh
 
- * Validation Logic
+ * 🧪 Validation Logic
     - Email: Must be a valid email format
     - Password: Minimum 6 characters
     - Fields show errors after blur or invalid submission
     - Form can't be submitted until all fields are valid
+
+### 🛠️ Installation
+
+- git clone https://github.com/your-username/login-form-react.git
+- cd login-form-react
+- npm install
+- npm run dev
+
+![github-image](src/assets/Screenshot 2025-07-04 150148.png)
