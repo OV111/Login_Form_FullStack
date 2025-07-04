@@ -16,9 +16,9 @@ A simple login form built using React and JSX, featuring field validation, error
 
 ### 🛠️ Installation
 
-- git clone https://github.com/your-username/login-form-react.git
+- git clone https://github.com/OV111/Login_Form_JSX.git
 - cd login-form-react
 - npm install
 - npm run dev
 
-![github-image](src/assets/Screenshot 2025-07-04 150148.png)
+![Login Form Preview](src/assets/Screenshot.png)
