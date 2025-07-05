@@ -1,6 +1,7 @@
 // ➔ All fields should be validated
 // ➔ Show error messages under the fields
 // ➔ Disable button when all fields not filled
+// ➔ Need to add Local Storage
 import React from "react";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom"
@@ -29,10 +30,10 @@ export const Login = () => {
   const validatePassword = (password) => {
     return password.trim().length >= 6;
   };
-
   const disableBtn = () => {
     return !email || !password || emailError !== "" || passwordError !== "";
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -45,7 +46,7 @@ export const Login = () => {
     if (email && password) {
       setState(true);
     }
-    console.log(`Form Submitted: ${email,password}`);
+    // console.log(`Form Submitted: ${email,password}`);
   };
 
   return (
