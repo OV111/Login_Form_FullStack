@@ -2,6 +2,15 @@
 // ➔ Show error messages under the fields
 // ➔ Disable button when all fields not filled
 // ➔ Need to add Local Storage
+// ➔ "Remember me" checkbox to choose storage type
+// ➔ Connect to backend for login and signup
+// ➔ On successful login, navigate to a protected page
+// ➔ Auto-login if user already stored in storage
+// ➔ Add Logout button to clear storage and redirect to login
+// ➔ Add success and error toast/alerts for user feedback
+// ➔ Show/hide password toggle (eye icon)
+// ➔ Store passwords securely on backend (hashing later)
+// ➔ Show loading spinner during network request
 import React from "react";
 import { useState } from "react";
 import {useNavigate} from "react-router-dom"
@@ -12,6 +21,7 @@ export const Login = () => {
   const [password, setPassword] = useState(undefined);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [rememberMe,setRememberMe] = useState(false)
   const [state, setState] = useState(false);
 
   const validateEmail = (email) => {
@@ -42,11 +52,17 @@ export const Login = () => {
 
     setEmailError(emailValid ? "" : "Invalid email address");
     setPasswordError(passwordValid ? "" : "Invalid password length");
-
     if (email && password) {
       setState(true);
+      if(!rememberMe) {
+        sessionStorage.setItem(email,password)
+        console.log("Saved in Session Storage")
+      } else {
+        localStorage.setItem(email,password)
+        console.log("Saved in Local Storage")
+      }
     }
-    // console.log(`Form Submitted: ${email,password}`);
+    console.log(`Form Submitted: ${email,password}`);
   };
 
   return (
@@ -150,7 +166,7 @@ export const Login = () => {
               </button>
             </div>
             <div className="forgetPswd">
-              <input type="checkbox" className="checkbox" />
+              <input type="checkbox" className="checkbox" onClick={() => {setRememberMe(true)}} />
               <p>Remember for 30 days</p>
               <a href="/">Forgot password?</a>
             </div>
