@@ -12,8 +12,9 @@
 // ➔ Store passwords securely on backend (hashing later)
 // ➔ Show loading spinner during network request
 import React from "react";
-import { useState } from "react";
-import {useNavigate} from "react-router-dom"
+import {useState} from "react";
+// import {useNavigate} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
@@ -23,6 +24,8 @@ export const Login = () => {
   const [passwordError, setPasswordError] = useState("");
   const [rememberMe,setRememberMe] = useState(false)
   const [state, setState] = useState(false);
+
+  // const navigate = useNavigate()
 
   const validateEmail = (email) => {
     const trimmedEmail = email.trim().toLowerCase();
@@ -182,7 +185,7 @@ export const Login = () => {
                 Sign in
               </button>
               <p>
-                Don't have an account? <a href="">Create account</a>
+                Don't have an account? <Link to="/SignUp">Create account</Link>
               </p>
             </div>
           </form>
