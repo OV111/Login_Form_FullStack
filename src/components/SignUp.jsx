@@ -54,9 +54,8 @@ export const SignUp = () => {
     // console.log(true)
     // console.log(formErrors);
   };
-
   console.log(fname, lname, email, password, repeatedPassword);
-  
+
   return (
     <React.Fragment>
       <div className="container2">
