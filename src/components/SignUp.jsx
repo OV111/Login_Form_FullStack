@@ -24,22 +24,39 @@ export const SignUp = () => {
 
   const validateForm = () => {
     const errors = {};
+    const trimmedEmail = email.trim().toLowerCase();
     if (!fname.trim()) errors.fname = "First Name is Required";
     if (!lname.trim()) errors.lname = "Last Name is Required";
-    if (!email.trim().toLowerCase().includes("@"))
-      errors.email = "Email should be Valid";
+    if (!trimmedEmail) {
+      errors.email = "Email is required";
+    } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(trimmedEmail)) {
+      errors.email = "Email should be valid";
+    }
+    if (!password) {
+      errors.password = "Password is required";
+    } else if (password.length < 6) {
+      errors.password = "Password must at least contain 6 characters ";
+    }
+
+    if (!repeatedPassword) {
+      errors.repeatedPassword = "Repeating Password is required";
+    } else if (repeatedPassword !== password) {
+      errors.repeatedPassword = "Passwords need to match!";
+    }
+
     return errors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const errors = validateForm();
-    setFormErrors(errors);
+    // const errors = validateForm();
+    setFormErrors(validateForm());
     // console.log(true)
-    console.log(formErrors);
+    // console.log(formErrors);
   };
 
   console.log(fname, lname, email, password, repeatedPassword);
+  
   return (
     <React.Fragment>
       <div className="container2">
@@ -82,7 +99,7 @@ export const SignUp = () => {
                 }}
               />
               {formErrors.fname && (
-                <p className="errorText">First Name is required</p>
+                <p className="errorText">{formErrors.fname}</p>
               )}
             </div>
             <div className="lastName">
@@ -95,7 +112,7 @@ export const SignUp = () => {
                 }}
               />
               {formErrors.lname && (
-                <p className="errorText">Last Name is required</p>
+                <p className="errorText">{formErrors.lname}</p>
               )}
             </div>
           </div>
@@ -109,7 +126,9 @@ export const SignUp = () => {
                 setEmail(e.target.value);
               }}
             />
-            {formErrors.email && (<p className="errorText">Email should be valid</p>)}
+            {formErrors.email && (
+              <p className="errorText">{formErrors.email}</p>
+            )}
           </div>
 
           <div className="password">
@@ -121,6 +140,9 @@ export const SignUp = () => {
                 setPassword(e.target.value);
               }}
             />
+            {formErrors.password && (
+              <p className="errorText">{formErrors.password}</p>
+            )}
           </div>
 
           <div className="confirmPassword">
@@ -132,6 +154,9 @@ export const SignUp = () => {
                 setRepeatedPassword(e.target.value);
               }}
             />
+            {formErrors.repeatedPassword && (
+              <p className="errorText">{formErrors.repeatedPassword}</p>
+            )}
           </div>
 
           <div className="terms">
