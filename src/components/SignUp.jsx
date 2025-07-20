@@ -21,7 +21,12 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
 
-  console.log(fname,sname,email,password,repeatedPassword)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    
+  };
+
+  console.log(fname, sname, email, password, repeatedPassword);
   return (
     <React.Fragment>
       <div className="container2">
@@ -52,64 +57,77 @@ export const SignUp = () => {
           <div className="separator-line"></div>
           {/* <span className="separator-text">or</span> */}
         </div>
+        <form onSubmit={handleSubmit}>
+          <div className="names">
+            <div className="firstName">
+              <label htmlFor="First Name">First Name</label>
+              <input
+                type="text"
+                placeholder="Enter your first name"
+                onChange={(e) => {
+                  setFname(e.target.value);
+                }}
+              />
+            </div>
+            <div className="lastName">
+              <label htmlFor="Last Name">Last Name</label>
+              <input
+                type="text"
+                placeholder="Enter your last name"
+                onChange={(e) => {
+                  setLname(e.target.value);
+                }}
+              />
+            </div>
+          </div>
 
-        <div className="names">
-          <div className="firstName">
-            <label htmlFor="First Name">First Name</label>
+          <div className="email">
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
-              placeholder="Enter your first name"
+              type="email"
+              placeholder="Enter your Email"
               onChange={(e) => {
-                setFname(e.target.value);
+                setEmail(e.target.value);
               }}
             />
           </div>
-          <div className="lastName">
-            <label htmlFor="Last Name">Last Name</label>
+
+          <div className="password">
+            <label htmlFor="password">Enter Password</label>
             <input
-              type="text"
-              placeholder="Enter your last name"
+              type="password"
+              placeholder="Enter Your Passsord"
               onChange={(e) => {
-                setLname(e.target.value);
+                setPassword(e.target.value);
               }}
             />
           </div>
-        </div>
 
-        <div className="email">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            placeholder="Enter your Email"
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          />
-        </div>
+          <div className="confirmPassword">
+            <label htmlFor="password">Confirm Password</label>
+            <input
+              type="password"
+              placeholder="Confirm your Password"
+              onChange={(e) => {
+                setRepeatedPassword(e.target.value);
+              }}
+            />
+          </div>
 
-        <div className="password">
-          <label htmlFor="password">Enter Password</label>
-          <input type="password" placeholder="Enter Your Passsord" onChange={(e) =>{setPassword(e.target.value)}}/>
-        </div>
+          <div className="terms">
+            <input type="checkbox" name="" />
+            <p>
+              I agree to the <span>Terms and Conditions</span>
+            </p>
+          </div>
 
-        <div className="confirmPassword">
-          <label htmlFor="password">Confirm Password</label>
-          <input type="password" placeholder="Confirm your Password" onChange={(e) => {setRepeatedPassword(e.target.value)}}/>
-        </div>
-
-        <div className="terms">
-          <input type="checkbox" name="" />
-          <p>
-            I agree to the <span>Terms and Conditions</span>
-          </p>
-        </div>
-
-        <div className="signUpPart">
-          <button disabled>Sign Up</button>
-          <p>
-            Already have an account? <Link to="/">Sign in</Link>
-          </p>
-        </div>
+          <div className="signUpPart">
+            <button disabled>Sign Up</button>
+            <p>
+              Already have an account? <Link to="/">Sign in</Link>
+            </p>
+          </div>
+        </form>
       </div>
     </React.Fragment>
   );
