@@ -47,6 +47,10 @@ export const SignUp = () => {
     return errors;
   };
 
+  const disableBtn = () => {
+    return fname !== "" || lname !== "" || email !== "" || password !== "" || repeatedPassword !== ""
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // const errors = validateForm();
@@ -166,7 +170,7 @@ export const SignUp = () => {
           </div>
 
           <div className="signUpPart">
-            <button>Sign Up</button>
+            <button type="submit" disabled={disableBtn()}>Sign Up</button>
             <p>
               Already have an account? <Link to="/">Sign in</Link>
             </p>
