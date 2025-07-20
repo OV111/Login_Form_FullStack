@@ -21,6 +21,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
 
+  console.log(fname,sname,email,password,repeatedPassword)
   return (
     <React.Fragment>
       <div className="container2">
@@ -88,16 +89,16 @@ export const SignUp = () => {
 
         <div className="password">
           <label htmlFor="password">Enter Password</label>
-          <input type="password" placeholder="Enter Your Passsord" />
+          <input type="password" placeholder="Enter Your Passsord" onChange={(e) =>{setPassword(e.target.value)}}/>
         </div>
 
         <div className="confirmPassword">
           <label htmlFor="password">Confirm Password</label>
-          <input type="password" placeholder="Confirm your Password" />
+          <input type="password" placeholder="Confirm your Password" onChange={(e) => {setRepeatedPassword(e.target.value)}}/>
         </div>
 
         <div className="terms">
-          <input type="checkbox" name="" id="" />
+          <input type="checkbox" name="" />
           <p>
             I agree to the <span>Terms and Conditions</span>
           </p>
