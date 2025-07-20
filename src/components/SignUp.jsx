@@ -10,23 +10,36 @@
 // ➔ Optionally, add "Show password" toggle for both password fields
 // ➔ Consider password strength feedback (bonus)
 // ➔ Clear form or errors on successful signup
-import React, { use } from "react";
+import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const SignUp = () => {
   const [fname, setFname] = useState("");
-  const [sname, setLname] = useState("");
+  const [lname, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [formErrors, setFormErrors] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    
+  const validateForm = () => {
+    const errors = {};
+    if (!fname.trim()) errors.fname = "First Name is Required";
+    if (!lname.trim()) errors.lname = "Last Name is Required";
+    if (!email.trim().toLowerCase().includes("@"))
+      errors.email = "Email should be Valid";
+    return errors;
   };
 
-  console.log(fname, sname, email, password, repeatedPassword);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errors = validateForm();
+    setFormErrors(errors);
+    // console.log(true)
+    console.log(formErrors);
+  };
+
+  console.log(fname, lname, email, password, repeatedPassword);
   return (
     <React.Fragment>
       <div className="container2">
@@ -68,6 +81,9 @@ export const SignUp = () => {
                   setFname(e.target.value);
                 }}
               />
+              {formErrors.fname && (
+                <p className="errorText">First Name is required</p>
+              )}
             </div>
             <div className="lastName">
               <label htmlFor="Last Name">Last Name</label>
@@ -78,6 +94,9 @@ export const SignUp = () => {
                   setLname(e.target.value);
                 }}
               />
+              {formErrors.lname && (
+                <p className="errorText">Last Name is required</p>
+              )}
             </div>
           </div>
 
@@ -90,6 +109,7 @@ export const SignUp = () => {
                 setEmail(e.target.value);
               }}
             />
+            {formErrors.email && (<p className="errorText">Email should be valid</p>)}
           </div>
 
           <div className="password">
@@ -122,7 +142,7 @@ export const SignUp = () => {
           </div>
 
           <div className="signUpPart">
-            <button disabled>Sign Up</button>
+            <button>Sign Up</button>
             <p>
               Already have an account? <Link to="/">Sign in</Link>
             </p>
