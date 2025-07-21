@@ -10,8 +10,8 @@
 // ➔ Optionally, add "Show password" toggle for both password fields
 // ➔ Consider password strength feedback (bonus)
 // ➔ Clear form or errors on successful signup
-import React, { use, useEffect } from "react";
-import { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export const SignUp = () => {
@@ -20,7 +20,27 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
+  const [checkbox, setCheckbox] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+  const [isFormValid, setIsFormValid] = useState(false);
+  // const [hasSubmitted,setHasSubmitted] = useState(false)
+  const [touched, setTouched] = useState({
+    fname: false,
+    lname: false,
+    email: false,
+    password: false,
+    repeatedPassword: false,
+    checkbox: false,
+  });
+
+  useEffect(() => {
+    const errors = validateForm();
+    setFormErrors(errors);
+    const noErrors = Object.keys(errors).length === 0;
+    const allFieldsFilled =
+      fname && lname && email && password && repeatedPassword && checkbox;
+    setIsFormValid(noErrors && allFieldsFilled);
+  }, [fname, lname, email, password, repeatedPassword, checkbox]);
 
   const validateForm = () => {
     const errors = {};
@@ -32,24 +52,38 @@ export const SignUp = () => {
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(trimmedEmail)) {
       errors.email = "Email should be valid";
     }
-    if (!password) {
-      errors.password = "Password is required";
-    } else if (password.length < 6) {
-      errors.password = "Password must at least contain 6 characters ";
-    }
+    if(!password) {
+      errors.password = "Password is Required"
+    } else if( password.length < 6) {
+      errors.password = "Password must be contain 6 character at least"
+    } 
 
     if (!repeatedPassword) {
       errors.repeatedPassword = "Repeating Password is required";
     } else if (repeatedPassword !== password) {
       errors.repeatedPassword = "Passwords need to match!";
     }
+    if (!checkbox) {
+      errors.checkbox = "Agree with terms and conditions";
+    }
+    // setFormErrors(errors);
     return errors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setTouched({
+      fname: true,
+      lname: true,
+      email: true,
+      password: true,
+      repeatedPassword: true,
+      checkbox: true,
+    });
     const errors = validateForm();
     setFormErrors(errors);
+
+    // handling sending data
     console.log(true);
   };
   // console.log(fname, lname, email, password, repeatedPassword);
@@ -94,8 +128,9 @@ export const SignUp = () => {
                 onChange={(e) => {
                   setFname(e.target.value);
                 }}
+                onBlur={() => setTouched((prev) => ({ ...prev, fname: true }))}
               />
-              {formErrors.fname && (
+              {touched.fname && formErrors.fname && (
                 <p className="errorText">{formErrors.fname}</p>
               )}
             </div>
@@ -107,8 +142,9 @@ export const SignUp = () => {
                 onChange={(e) => {
                   setLname(e.target.value);
                 }}
+                onBlur={() => setTouched((prev) => ({ ...prev, lname: true }))}
               />
-              {formErrors.lname && (
+              {touched.lname && formErrors.lname && (
                 <p className="errorText">{formErrors.lname}</p>
               )}
             </div>
@@ -122,8 +158,9 @@ export const SignUp = () => {
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
+              onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
             />
-            {formErrors.email && (
+            {touched.email && formErrors.email && (
               <p className="errorText">{formErrors.email}</p>
             )}
           </div>
@@ -136,8 +173,9 @@ export const SignUp = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
+              onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
             />
-            {formErrors.password && (
+            {touched.password && formErrors.password && (
               <p className="errorText">{formErrors.password}</p>
             )}
           </div>
@@ -150,21 +188,33 @@ export const SignUp = () => {
               onChange={(e) => {
                 setRepeatedPassword(e.target.value);
               }}
+              onBlur={() =>
+                setTouched((prev) => ({ ...prev, repeatedPassword: true }))
+              }
             />
-            {formErrors.repeatedPassword && (
+            {touched.repeatedPassword && formErrors.repeatedPassword && (
               <p className="errorText">{formErrors.repeatedPassword}</p>
             )}
           </div>
 
           <div className="terms">
-            <input type="checkbox" name="" />
-            <p>
-              I agree to the <span>Terms and Conditions</span>
-            </p>
+            <input
+              type="checkbox"
+              name=""
+              onChange={(e) => {
+                setCheckbox(e.target.checked);
+              }}
+              onBlur={() => setTouched((prev) => ({ ...prev, checkbox: true }))}
+            />
+            {touched.checkbox && formErrors.checkbox && (
+              <p className="errorText">{formErrors.checkbox}</p>
+            )}
           </div>
 
           <div className="signUpPart">
-            <button type="submit">Sign Up</button>
+            <button type="submit" disabled={!isFormValid}>
+              Sign Up
+            </button>
             <p>
               Already have an account? <Link to="/">Sign in</Link>
             </p>
