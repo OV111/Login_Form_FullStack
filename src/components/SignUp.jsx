@@ -10,7 +10,7 @@
 // ➔ Optionally, add "Show password" toggle for both password fields
 // ➔ Consider password strength feedback (bonus)
 // ➔ Clear form or errors on successful signup
-import React from "react";
+import React, { use, useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -43,22 +43,16 @@ export const SignUp = () => {
     } else if (repeatedPassword !== password) {
       errors.repeatedPassword = "Passwords need to match!";
     }
-
     return errors;
   };
 
-  const disableBtn = () => {
-    return fname !== "" || lname !== "" || email !== "" || password !== "" || repeatedPassword !== ""
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // const errors = validateForm();
-    setFormErrors(validateForm());
-    // console.log(true)
-    // console.log(formErrors);
+    const errors = validateForm();
+    setFormErrors(errors);
+    console.log(true);
   };
-  console.log(fname, lname, email, password, repeatedPassword);
+  // console.log(fname, lname, email, password, repeatedPassword);
 
   return (
     <React.Fragment>
@@ -170,7 +164,7 @@ export const SignUp = () => {
           </div>
 
           <div className="signUpPart">
-            <button type="submit" disabled={disableBtn()}>Sign Up</button>
+            <button type="submit">Sign Up</button>
             <p>
               Already have an account? <Link to="/">Sign in</Link>
             </p>
