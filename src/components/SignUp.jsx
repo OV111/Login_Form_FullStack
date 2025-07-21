@@ -23,7 +23,7 @@ export const SignUp = () => {
   const [checkbox, setCheckbox] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
-  // const [hasSubmitted,setHasSubmitted] = useState(false)
+
   const [touched, setTouched] = useState({
     fname: false,
     lname: false,
@@ -52,11 +52,11 @@ export const SignUp = () => {
     } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(trimmedEmail)) {
       errors.email = "Email should be valid";
     }
-    if(!password) {
-      errors.password = "Password is Required"
-    } else if( password.length < 6) {
-      errors.password = "Password must be contain 6 character at least"
-    } 
+    if (!password) {
+      errors.password = "Password is Required";
+    } else if (password.length < 6) {
+      errors.password = "Password must be contain 6 character at least";
+    }
 
     if (!repeatedPassword) {
       errors.repeatedPassword = "Repeating Password is required";
@@ -66,7 +66,6 @@ export const SignUp = () => {
     if (!checkbox) {
       errors.checkbox = "Agree with terms and conditions";
     }
-    // setFormErrors(errors);
     return errors;
   };
 
@@ -80,13 +79,13 @@ export const SignUp = () => {
       repeatedPassword: true,
       checkbox: true,
     });
+
     const errors = validateForm();
     setFormErrors(errors);
 
     // handling sending data
     console.log(true);
   };
-  // console.log(fname, lname, email, password, repeatedPassword);
 
   return (
     <React.Fragment>
@@ -200,13 +199,12 @@ export const SignUp = () => {
           <div className="terms">
             <input
               type="checkbox"
-              name=""
+              name="checkbox"
               onChange={(e) => {
                 setCheckbox(e.target.checked);
               }}
-              onBlur={() => setTouched((prev) => ({ ...prev, checkbox: true }))}
             />
-            {touched.checkbox && formErrors.checkbox && (
+            {formErrors.checkbox && (
               <p className="errorText">{formErrors.checkbox}</p>
             )}
           </div>
