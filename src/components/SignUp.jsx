@@ -14,6 +14,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { SuccesfullSignUp } from "./SuccesfullSignUp";
 
 export const SignUp = () => {
   const [fname, setFname] = useState("");
@@ -22,7 +23,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
   const [showPasswd, setshowPasswd] = useState(false);
-  const [showPasswd2,setshowPasswd2] = useState(false)
+  const [showPasswd2, setshowPasswd2] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
@@ -49,13 +50,11 @@ export const SignUp = () => {
   }, [fname, lname, email, password, repeatedPassword, checkbox]);
 
   useEffect(() => {
-    if (serverMessage === "User Registered | Created") {
+    if (serverMessage === "Account Created Successfully!") {
       const timer = setTimeout(() => {
         navigate("/");
-      }, 2500);
-      return () => {
-        clearTimeout(timer);
-      };
+      }, 3000);
+      return () => {clearTimeout(timer);};
     }
   }, [serverMessage, navigate]);
 
@@ -117,11 +116,18 @@ export const SignUp = () => {
         }),
       });
       const datafromServer = await response.json();
-      setServerMessage(datafromServer.message);
+      if(datafromServer.message === 'Account Created Successfully!' && response.status === 201) {
+        setServerMessage(datafromServer.message);
+      } else if (response.status === 409 && datafromServer.message === 'User with that Email already Exist | Conflict') {
+        setFormErrors((prev) => ({
+          ...prev,
+          email: 'User with that Email already Exist | Conflict'
+        }))
+      }
       // console.log(datafromServer.message);
       // setFname("")
     } catch (err) {
-      console.log(err.message);
+      console.log("Network or Server Error ", err.message);
     }
     // console.log(true);
   };
@@ -278,7 +284,6 @@ export const SignUp = () => {
                 {showPasswd2 ? (
                   <svg
                     className="eye-icon"
-                   
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -321,7 +326,6 @@ export const SignUp = () => {
 
             <div className="signUpPart">
               <button type="submit" disabled={!isFormValid}>
-                {/* <Link to="/"></Link> */}
                 Sign Up
               </button>
               <p>
@@ -331,9 +335,9 @@ export const SignUp = () => {
           </form>
         </div>
       ) : (
-        <div>
-          <p>{serverMessage} ...redirectiing to Login </p>
-        </div>
+        <React.Fragment>
+          <SuccesfullSignUp serverMessage={serverMessage} />
+        </React.Fragment>
       )}
     </React.Fragment>
   );
