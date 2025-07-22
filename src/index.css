@@ -219,6 +219,35 @@ body {
   color: rgb(55, 55, 55);
   cursor: pointer;
 }
+.passwordBtn1 {
+  position: absolute;
+  right: 480px;
+  bottom: 228px;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border-radius: 50%;
+  border: none;
+  color: rgb(55, 55, 55);
+  cursor: pointer;
+}
+.passwordBtn2 {
+  position: absolute;
+  right: 480px;
+  bottom: 150px;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border-radius: 50%;
+  border: none;
+  color: rgb(55, 55, 55);
+  cursor: pointer;
+
+}
 
 .password input {
   width: 470px;
@@ -569,3 +598,7 @@ body {
     background-color: #f9f9f9;
   }
 }
+/* 
+#eyeIcon2 {
+  margin: 10px;
+} */
