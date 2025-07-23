@@ -22,9 +22,11 @@ export const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatedPassword, setRepeatedPassword] = useState("");
+
   const [showPasswd, setshowPasswd] = useState(false);
   const [showPasswd2, setshowPasswd2] = useState(false);
   const [checkbox, setCheckbox] = useState(false);
+
   const [formErrors, setFormErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
@@ -37,15 +39,14 @@ export const SignUp = () => {
     repeatedPassword: false,
     checkbox: false,
   });
-  // ////////////////////////////////////////
+
   const navigate = useNavigate();
-  //
+  
   useEffect(() => {
     const errors = validateForm();
     setFormErrors(errors);
     const noErrors = Object.keys(errors).length === 0;
-    const allFieldsFilled =
-      fname && lname && email && password && repeatedPassword && checkbox;
+    const allFieldsFilled = fname && lname && email && password && repeatedPassword && checkbox;
     setIsFormValid(noErrors && allFieldsFilled);
   }, [fname, lname, email, password, repeatedPassword, checkbox]);
 
@@ -73,7 +74,6 @@ export const SignUp = () => {
     } else if (password.length < 6) {
       errors.password = "Password must be contain 6 character at least";
     }
-
     if (!repeatedPassword) {
       errors.repeatedPassword = "Repeating Password is required";
     } else if (repeatedPassword !== password) {
@@ -99,7 +99,7 @@ export const SignUp = () => {
     const errors = validateForm();
     setFormErrors(errors);
 
-    // handling sending data
+    // Sending data to Server
     if (Object.keys(errors).length !== 0) return;
 
     try {
@@ -116,15 +116,14 @@ export const SignUp = () => {
         }),
       });
       const datafromServer = await response.json();
-      if(datafromServer.message === 'Account Created Successfully!' && response.status === 201) {
+      if (datafromServer.message === "Account Created Successfully!" && response.status === 201) {
         setServerMessage(datafromServer.message);
-      } else if (response.status === 409 && datafromServer.message === 'User with that Email already Exist | Conflict') {
+      } else if (response.status === 409 && datafromServer.message === "User with that Email already Exist | Conflict") {
         setFormErrors((prev) => ({
           ...prev,
-          email: 'User with that Email already Exist | Conflict'
-        }))
+          email: "User with that Email already Exist | Conflict",
+        }));
       }
-      // console.log(datafromServer.message);
       // setFname("")
     } catch (err) {
       console.log("Network or Server Error ", err.message);
@@ -147,21 +146,8 @@ export const SignUp = () => {
             <p>Please enter your details to sign-up</p>
           </div>
 
-          {/* <div className="headerBtn">
-            <button>
-              <img src="src/assets/google.png" alt="google logo" />
-            </button>
-            <button>
-              <img src="src/assets/apple.png" alt="apple logo" />
-            </button>
-            <button>
-              <img src="src/assets/facebook.png" alt="facebook logo" />
-            </button>
-          </div> */}
-
           <div className="separator">
             <div className="separator-line"></div>
-            {/* <span className="separator-text">or</span> */}
           </div>
           <form onSubmit={handleSubmit}>
             <div className="names">
