@@ -1,4 +1,4 @@
-# 🔐 Login Form (React)
+# 🔐 Login Form (React + Node)
 
 A simple login form built using React and JSX, featuring field validation, error messaging, disabled button states, and persistent data storage via localStorage.
 
