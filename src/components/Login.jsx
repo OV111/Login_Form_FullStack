@@ -24,7 +24,7 @@ export const Login = () => {
   const [passwordError, setPasswordError] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [state, setState] = useState(false);
-  const [loginSuccessful,setLoginSuccessful] = useState("")
+  const [loginSuccessful, setLoginSuccessful] = useState("");
 
   const validateEmail = (email) => {
     const trimmedEmail = email.trim().toLowerCase();
@@ -49,7 +49,7 @@ export const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const emailValid = !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
+    const emailValid = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
     const passwordValid = validatePassword(password);
 
     setEmailError(emailValid ? "" : "Invalid email address");
@@ -68,22 +68,28 @@ export const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({email,password}),
-        }) 
-        const resultFromServer = await response.json()
-        if(resultFromServer.message === "Unauthorized | credentials are missing or Invalid." && resultFromServer.status === 401)  {
-          console.log("smth")  
-          // setState(false)
-        } else if(resultFromServer.message === "Login Successful!" && resultFromServer.status === 200) {
-          setLoginSuccessful(resultFromServer.message)
+          body: JSON.stringify({ email, password }),
+        });
+        const resultFromServer = await response.json();
+        if (
+          resultFromServer.message === "Login Successful!" &&
+          resultFromServer.status === 200
+        ) {
+          setLoginSuccessful(resultFromServer.message);
           setState(true);
+          console.log(true);
+        } else if (
+          resultFromServer.message ===
+            "Unauthorized | credentials are missing or Invalid." &&
+          resultFromServer.status === 401
+        ) {
+          setState(false);
+          setPasswordError('Email or password is incorrect.')
         }
-        
       } catch (err) {
         console.log("vahe");
         console.log(err.message);
       }
-
     }
     // console.log(`Form Submitted: ${(email, password)}`);
   };
@@ -149,11 +155,12 @@ export const Login = () => {
                   setPassword(value);
                   if (validatePassword(value)) {
                     setPasswordError("");
-                  } else {
-                    setPasswordError(
-                      "Password must be contain 6 character at least"
-                    );
-                  }
+                  } else if(value.length < 6){
+                    setPasswordError("Password must be contain 6 character at least");
+                  } 
+                  // else {
+                  //   setPasswordError('Email or password is incorrect.')
+                  // }
                 }}
                 required
               />
