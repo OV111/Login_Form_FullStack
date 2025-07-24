@@ -36,6 +36,7 @@ const server = http.createServer((req, res) => {
           res.writeHead(409, { "Content-Type": "application/json" });
           return res.end(
             JSON.stringify({
+              status: 409,
               message: "User with that Email already Exist | Conflict",
             })
           );
@@ -56,7 +57,10 @@ const server = http.createServer((req, res) => {
             }
             res.writeHead(201, { "Content-Type": "application/json" });
             res.end(
-              JSON.stringify({ message: "Account Created Successfully!" })
+              JSON.stringify({
+                status: 201,
+                message: "Account Created Successfully!"
+              })
             );
           }
         );
@@ -92,6 +96,7 @@ const server = http.createServer((req, res) => {
           res.writeHead(401, { "Content-Type": "application/json" });
           return res.end(
             JSON.stringify({
+              status: 401,
               message: "Unauthorized | credentials are missing or Invalid.",
             })
           );
@@ -99,6 +104,7 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(
           JSON.stringify({
+            status: 200,
             message: "Login Successful!",
           })
         );
