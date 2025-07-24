@@ -12,7 +12,7 @@
 // ➔ Store passwords securely on backend (hashing later)
 // ➔ Show loading spinner during network request
 import React from "react";
-import {useState} from "react";
+import { useState } from "react";
 // import {useNavigate} from "react-router-dom"
 import { Link } from "react-router-dom";
 
@@ -22,10 +22,9 @@ export const Login = () => {
   const [password, setPassword] = useState(undefined);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [rememberMe,setRememberMe] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false);
   const [state, setState] = useState(false);
-
-  // const navigate = useNavigate()
+  const [loginSuccessful,setLoginSuccessful] = useState("")
 
   const validateEmail = (email) => {
     const trimmedEmail = email.trim().toLowerCase();
@@ -47,25 +46,46 @@ export const Login = () => {
     return !email || !password || emailError !== "" || passwordError !== "";
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const emailValid = validateEmail(email);
+    const emailValid = !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
     const passwordValid = validatePassword(password);
 
     setEmailError(emailValid ? "" : "Invalid email address");
     setPasswordError(passwordValid ? "" : "Invalid password length");
     if (email && password) {
-      setState(true);
-      if(!rememberMe) {
-        sessionStorage.setItem(email,password)
-        console.log("Saved in Session Storage")
-      } else {
-        localStorage.setItem(email,password)
-        console.log("Saved in Local Storage")
+      // if(!rememberMe) {
+      //   sessionStorage.setItem(email,password)
+      //   console.log("Saved in Session Storage")
+      // } else {
+      //   localStorage.setItem(email,password)
+      //   console.log("Saved in Local Storage")
+      // }
+      try {
+        const response = await fetch("http://localhost:5000/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({email,password}),
+        }) 
+        const resultFromServer = await response.json()
+        if(resultFromServer.message === "Unauthorized | credentials are missing or Invalid." && resultFromServer.status === 401)  {
+          console.log("smth")  
+          // setState(false)
+        } else if(resultFromServer.message === "Login Successful!" && resultFromServer.status === 200) {
+          setLoginSuccessful(resultFromServer.message)
+          setState(true);
+        }
+        
+      } catch (err) {
+        console.log("vahe");
+        console.log(err.message);
       }
+
     }
-    console.log(`Form Submitted: ${email,password}`);
+    // console.log(`Form Submitted: ${(email, password)}`);
   };
 
   return (
@@ -130,7 +150,9 @@ export const Login = () => {
                   if (validatePassword(value)) {
                     setPasswordError("");
                   } else {
-                    setPasswordError("Inavlid Password Length");
+                    setPasswordError(
+                      "Password must be contain 6 character at least"
+                    );
                   }
                 }}
                 required
@@ -169,7 +191,13 @@ export const Login = () => {
               </button>
             </div>
             <div className="forgetPswd">
-              <input type="checkbox" className="checkbox" onClick={() => {setRememberMe(true)}} />
+              <input
+                type="checkbox"
+                className="checkbox"
+                onClick={() => {
+                  setRememberMe(true);
+                }}
+              />
               <p>Remember for 30 days</p>
               <a href="/">Forgot password?</a>
             </div>
@@ -192,7 +220,7 @@ export const Login = () => {
         </div>
       ) : (
         <div className="successPage">
-          <h2>Loggin Successful</h2>
+          <h2>{loginSuccessful}</h2>
           <p>Welcome back</p>
         </div>
       )}
