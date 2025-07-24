@@ -59,12 +59,51 @@ const server = http.createServer((req, res) => {
               JSON.stringify({ message: "Account Created Successfully!" })
             );
           }
-        );  
+        );
       });
     });
-  } else if (req.url === "/" && req.method === "GET") {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    return res.end(JSON.stringify({ message: "okay Vahe" }));
+  } else if (req.url === "/" && req.method === "POST") {
+    let body = "";
+    req.on("data", (chunk) => {
+      body += chunk.toString();
+    });
+    req.on("end", () => {
+      const loginData = JSON.parse(body);
+      // console.log(loginData.email)
+      fs.readFile("data/users.json", (err, data) => {
+        if (err) {
+          res.writeHead(500, { "content-type": "application/json" });
+          return res.end(
+            JSON.stringify({ message: "Network or Server Error!" })
+          );
+        }
+
+        let users;
+        try {
+          users = JSON.parse(data);
+        } catch {
+          users = [];
+        }
+        let user = users.find(
+          (u) =>
+            u.email === loginData.email && u.password === loginData.password
+        );
+        if (!user) {
+          res.writeHead(401, { "Content-Type": "application/json" });
+          return res.end(
+            JSON.stringify({
+              message: "Unauthorized | credentials are missing or Invalid.",
+            })
+          );
+        }
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(
+          JSON.stringify({
+            message: "Login Successful!",
+          })
+        );
+      });
+    });
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ code: 404, message: "Not Found" }));
