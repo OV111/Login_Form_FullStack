@@ -18,41 +18,59 @@ const server = http.createServer((req, res) => {
     });
     req.on("end", () => {
       const user = JSON.parse(body);
-      // const newUserData = JSON.stringify(user)
-
       fs.readFile("data/users.json", (readErr, data) => {
         let users = [];
         if (!readErr && data) {
           try {
             users = JSON.parse(data);
-            if (!Array.isArray(users)) { users = []; }
-          } catch { users = []; }
+            if (!Array.isArray(users)) {
+              users = [];
+            }
+          } catch {
+            users = [];
+          }
         }
 
-        const existingUser = users.find(u => u.email === user.email)
+        const existingUser = users.find((u) => u.email === user.email);
         if (existingUser) {
-          res.writeHead(409, {"content-type" : "application/json"})
-          res.end(JSON.stringify({message: "User with that Email already Exist | Conflict"}))
-        } else { users.push(user); }
-        
+          res.writeHead(409, { "Content-Type": "application/json" });
+          return res.end(
+            JSON.stringify({
+              message: "User with that Email already Exist | Conflict",
+            })
+          );
+        } else {
+          users.push(user);
+        }
+        // console.log(body)
         // console.log(user);
-        fs.writeFile("data/users.json",JSON.stringify(users, null,2),"utf-8",(err) => {
+        fs.writeFile(
+          "data/users.json",
+          JSON.stringify(users, null, 2),
+          "utf-8",
+          (err) => {
             if (err) {
               console.error("Error writing user data", err);
-              res.writeHead(500, { "content-type": "application/json" });
+              res.writeHead(500, { "Content-Type": "application/json" });
               res.end(JSON.stringify({ message: "Failed to save User Data" }));
-            } 
-            res.writeHead(201, { "content-type": "application/json" });
-            res.end(JSON.stringify({ message: "User Registered | Created" }));
+            }
+            res.writeHead(201, { "Content-Type": "application/json" });
+            res.end(
+              JSON.stringify({ message: "Account Created Successfully!" })
+            );
           }
-        );
+        );  
       });
     });
+  } else if (req.url === "/" && req.method === "GET") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    return res.end(JSON.stringify({ message: "okay Vahe" }));
   } else {
-    res.writeHead(404, { "content-type": "application/json" });
+    res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ code: 404, message: "Not Found" }));
   }
 });
+
 server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/signUp`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
