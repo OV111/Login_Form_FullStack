@@ -30,6 +30,7 @@ export const SignUp = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
+  const [hasServerError,setHasServerError] = useState(false)
 
   const [touched, setTouched] = useState({
     fname: false,
@@ -56,12 +57,20 @@ export const SignUp = () => {
         navigate("/");
       }, 3000);
       return () => {clearTimeout(timer);};
-    }
+    } 
   }, [serverMessage, navigate]);
+
+  useEffect(() => {
+    if(hasServerError) {
+      alert("Network or Server Error!");
+      console.log("vahe works server error");
+      setHasServerError(false);
+    }
+  },[hasServerError]);
 
   const validateForm = () => {
     const errors = {};
-    const trimmedEmail = email.trim().toLowerCase();
+    const trimmedEmail = email.trim().toLowerCase(); //useMemo !
     if (!fname.trim()) errors.fname = "First Name is Required";
     if (!lname.trim()) errors.lname = "Last Name is Required";
     if (!trimmedEmail) {
@@ -106,34 +115,41 @@ export const SignUp = () => {
       const response = await fetch("http://localhost:5000/signUp", {
         method: "POST",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          fname,
-          lname,
-          email,
-          password,
+          fname : fname.trim(),
+          lname : lname.trim(),
+          email : email.trim(),
+          password : password.trim(),
         }),
       });
       const datafromServer = await response.json();
       if (datafromServer.message === "Account Created Successfully!" && response.status === 201) {
         setServerMessage(datafromServer.message);
+        setFname("")
+        setLname("")
+        setEmail("")
+        setPassword("")
+        setRepeatedPassword("")
+        setCheckbox(false)
       } else if (response.status === 409 && datafromServer.message === "User with that Email already Exist | Conflict") {
         setFormErrors((prev) => ({
           ...prev,
           email: "User with that Email already Exist | Conflict",
         }));
       }
-      // setFname("")
     } catch (err) {
-      console.log("Network or Server Error ", err.message);
+      console.log("Network or Server Error", err.message);
+      setServerMessage("Network Error. Please try again later.")
+      setHasServerError(true)
     }
-    // console.log(true);
+    console.log(true);
   };
 
   return (
     <React.Fragment>
-      {!serverMessage ? (
+      {serverMessage !== 'Account Created Successfully!' ? (
         <div className="container2">
           <div className="headerText">
             <img
@@ -192,6 +208,7 @@ export const SignUp = () => {
                 placeholder="Enter your Email"
                 onChange={(e) => {
                   setEmail(e.target.value);
+                  setFormErrors((prev) => ({...prev,email:''}))
                 }}
                 onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
               />
@@ -328,5 +345,3 @@ export const SignUp = () => {
     </React.Fragment>
   );
 };
-
-// Need to add asap
