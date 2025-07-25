@@ -11,18 +11,19 @@
 // ➔ Show/hide password toggle (eye icon)
 // ➔ Store passwords securely on backend (hashing later)
 // ➔ Show loading spinner during network request
+// import {useNavigate} from "react-router-dom"
 import React from "react";
 import { useState } from "react";
-// import {useNavigate} from "react-router-dom"
 import { Link } from "react-router-dom";
+import { SuccesFullLogin } from "./SuccesfullLogin";
 
 export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
   const [email, setEmail] = useState(undefined);
+  const [fname,setFname] = useState("")
   const [password, setPassword] = useState(undefined);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [state, setState] = useState(false);
   const [loginSuccessful, setLoginSuccessful] = useState("");
 
@@ -55,13 +56,6 @@ export const Login = () => {
     setEmailError(emailValid ? "" : "Invalid email address");
     setPasswordError(passwordValid ? "" : "Invalid password length");
     if (email && password) {
-      // if(!rememberMe) {
-      //   sessionStorage.setItem(email,password)
-      //   console.log("Saved in Session Storage")
-      // } else {
-      //   localStorage.setItem(email,password)
-      //   console.log("Saved in Local Storage")
-      // }
       try {
         const response = await fetch("http://localhost:5000/", {
           method: "POST",
@@ -77,7 +71,7 @@ export const Login = () => {
         ) {
           setLoginSuccessful(resultFromServer.message);
           setState(true);
-          console.log(true);
+          setFname(resultFromServer.fname);
         } else if (
           resultFromServer.message ===
             "Unauthorized | credentials are missing or Invalid." &&
@@ -87,11 +81,9 @@ export const Login = () => {
           setPasswordError('Email or password is incorrect.')
         }
       } catch (err) {
-        console.log("vahe");
         console.log(err.message);
       }
     }
-    // console.log(`Form Submitted: ${(email, password)}`);
   };
 
   return (
@@ -202,7 +194,7 @@ export const Login = () => {
                 type="checkbox"
                 className="checkbox"
                 onClick={() => {
-                  setRememberMe(true);
+                  
                 }}
               />
               <p>Remember for 30 days</p>
@@ -226,10 +218,9 @@ export const Login = () => {
           </form>
         </div>
       ) : (
-        <div className="successPage">
-          <h2>{loginSuccessful}</h2>
-          <p>Welcome back</p>
-        </div>
+        <React.Fragment>
+          <SuccesFullLogin successMsg={loginSuccessful} fname={fname} email={email} />
+        </React.Fragment>
       )}
     </React.Fragment>
   );
