@@ -43,8 +43,6 @@ const server = http.createServer((req, res) => {
         } else {
           users.push(user);
         }
-        // console.log(body)
-        // console.log(user);
         fs.writeFile(
           "data/users.json",
           JSON.stringify(users, null, 2),
@@ -73,7 +71,6 @@ const server = http.createServer((req, res) => {
     });
     req.on("end", () => {
       const loginData = JSON.parse(body);
-      // console.log(loginData.email)
       fs.readFile("data/users.json", (err, data) => {
         if (err) {
           res.writeHead(500, { "content-type": "application/json" });
@@ -104,6 +101,7 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(
           JSON.stringify({
+            fname: user.fname,
             status: 200,
             message: "Login Successful!",
           })
