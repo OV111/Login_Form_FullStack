@@ -624,7 +624,7 @@ body {
   position: relative;
   width: 80px;
   height: 80px;
-  margin: 0 auto 40px;
+  margin: 0 auto 30px;
 }
 
 .checkmark {
@@ -673,7 +673,7 @@ body {
 .content p {
   color: #666;
   font-size: 18px;
-  margin: 0 0 30px 0;
+  margin: 0 0 20px 0;
   animation: fadeInUp 0.6s ease-out 0.8s both;
 }
 
