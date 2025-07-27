@@ -63,7 +63,6 @@ export const SignUp = () => {
   useEffect(() => {
     if(hasServerError) {
       alert("Network or Server Error!");
-      console.log("vahe works server error");
       setHasServerError(false);
     }
   },[hasServerError]);

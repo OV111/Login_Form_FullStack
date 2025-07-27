@@ -12,10 +12,12 @@
 // ➔ Store passwords securely on backend (hashing later)
 // ➔ Show loading spinner during network request
 // import {useNavigate} from "react-router-dom"
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { SuccesFullLogin } from "./SuccesfullLogin";
+import { Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
@@ -26,6 +28,17 @@ export const Login = () => {
   const [passwordError, setPasswordError] = useState("");
   const [state, setState] = useState(false);
   const [loginSuccessful, setLoginSuccessful] = useState("");
+  const [loading,setLoading] = useState(false) 
+  const [hasServerError,setHasServerError] = useState(false)
+  
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(hasServerError) {
+      alert("Server Error | Not Responding")
+      setHasServerError(false)
+    }
+  },[hasServerError])
 
   const validateEmail = (email) => {
     const trimmedEmail = email.trim().toLowerCase();
@@ -49,6 +62,7 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
 
     const emailValid = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
     const passwordValid = validatePassword(password);
@@ -72,20 +86,26 @@ export const Login = () => {
           setLoginSuccessful(resultFromServer.message);
           setState(true);
           setFname(resultFromServer.fname);
+          // navigate("success",{state,fname})
         } else if (
           resultFromServer.message ===
-            "Unauthorized | credentials are missing or Invalid." &&
+          "Unauthorized | credentials are missing or Invalid." &&
           resultFromServer.status === 401
         ) {
           setState(false);
           setPasswordError('Email or password is incorrect.')
-        }
+        } 
       } catch (err) {
         console.log(err.message);
+        setHasServerError(true)
+      } finally {
+        setLoading(false)
       }
+    } else {
+      setLoading(false)
     }
   };
-
+  
   return (
     <React.Fragment>
       {!state ? (
@@ -151,19 +171,18 @@ export const Login = () => {
                     setPasswordError("Password must be contain 6 character at least");
                   } 
                   // else {
-                  //   setPasswordError('Email or password is incorrect.')
-                  // }
-                }}
-                required
-              />
-              {passwordError && <p className="errorText">{passwordError}</p>}
-              <button
-                className="passwordBtn"
-                type="button"
-                onClick={() => {
+                    //   setPasswordError('Email or password is incorrect.')
+                    // }
+                  }}
+                  required
+                  />
+                <button
+                  className="passwordBtn"
+                  type="button"
+                  onClick={() => {
                   setshowPasswd(!showPasswd);
                 }}
-              >
+                >
                 {showPasswd ? (
                   <svg
                     className="eye-icon"
@@ -188,6 +207,7 @@ export const Login = () => {
                   </svg>
                 )}
               </button>
+                  {passwordError && <p className="errorText">{passwordError}</p>}
             </div>
             <div className="forgetPswd">
               <input
@@ -207,9 +227,9 @@ export const Login = () => {
               <button
                 className="signinBtn"
                 type="submit"
-                disabled={disableBtn()}
-              >
-                Sign in
+                disabled={disableBtn() }
+                >
+              {loading ? <Spin size="medium"></Spin>: "Sign in"}
               </button>
               <p>
                 Don't have an account? <Link to="/signUp">Create account</Link>
@@ -217,11 +237,11 @@ export const Login = () => {
             </div>
           </form>
         </div>
-      ) : (
+      ) : ( 
         <React.Fragment>
           <SuccesFullLogin successMsg={loginSuccessful} fname={fname} email={email} />
-        </React.Fragment>
-      )}
+        </React.Fragment> 
+       )} 
     </React.Fragment>
   );
 };
