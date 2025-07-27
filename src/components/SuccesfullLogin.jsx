@@ -30,7 +30,6 @@ export const SuccesFullLogin = ({ successMsg, fname, email }) => {
         </div>
         <div className="user-info">
           <div className="avatar">
-            <img src="" alt="User" className="avatar-image" />
             <div className="avatar-fallback">{email}</div>
           </div>
           <div className="user-details">
