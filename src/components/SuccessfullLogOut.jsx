@@ -1,28 +1,27 @@
-import React from "react"
-import {useState,useEffect }from "react"
-import {useNavigate} from "react-router-dom"
+import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Spin } from "antd";
 const SuccesFullLogOut = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [state, setState] = useState(false);
 
-    // useEffect(() => {
-    //     var timerId = setTimeout(() => {
-    //         navigate("/signUp")
-    //     },3000)
-    //     return () => {clearTimeout(timerId)}
-    // },[navigate])
+  const handleClick = () => {
+    setTimeout(() => {
+      navigate("/signUp");
+    }, 1500);
+    setState(true);
+  };
 
-
-    const handleClick = () => {
-        setTimeout(() => {
-            navigate("/signUp")
-        },3000)
-    }
-    return (
-        <React.Fragment>
-            <p>succesfull logout</p>
-            {/* and put some loader in button text */}
-            <button onClick={handleClick}>get Back to signup</button>
-        </React.Fragment>
-    )
-}
-export default SuccesFullLogOut
+  return (
+    <React.Fragment>
+      <div className="logout-success">
+        <h2>Succesfull Log Out</h2>
+        <button onClick={handleClick}>
+          {!state ? "Get Back to Sign Up" : <Spin>redirecting</Spin>}
+        </button>
+      </div>
+    </React.Fragment>
+  );
+};
+export default SuccesFullLogOut;
