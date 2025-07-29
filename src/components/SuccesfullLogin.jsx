@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 export const SuccesFullLogin = ({ successMsg, fname, email }) => {
   return (
     <React.Fragment>
@@ -36,6 +37,16 @@ export const SuccesFullLogin = ({ successMsg, fname, email }) => {
             <h3 className="user-name">{fname}</h3>
             <p className="user-email">{email}</p>
           </div>
+        </div>
+        <div className="logOut">
+          <p>For Log Out or Delete Account, click the button.</p>
+          <Link to="/logOut">
+            <button className="logOutBtn">Log Out</button>
+          </Link>
+          {/*  if (!window.confirm("Are you sure you want to delete your account?")) return; */}
+          <Link to="/DeleteAccount">
+            <button className="deleteAccBtn">Delete My Account</button>
+          </Link>
         </div>
         <div className="action-buttons">
           <Link to="/signUp">
