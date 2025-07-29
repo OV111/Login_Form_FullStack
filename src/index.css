@@ -737,7 +737,8 @@ body {
 
 /* Login Successful */
 .card-header {
-  height: 55vh;
+  min-height: 55vh;
+  max-height: none;
   text-align: center;
   padding: 2rem 1.5rem 1rem;
   width: 100%;
@@ -922,6 +923,69 @@ body {
   flex-direction: column;
   gap: 1.5rem;
 } */
+
+
+.logOut {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  align-items: center;  
+  gap: 10px;
+  /* margin: 10px; */
+}
+
+.logOut p {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+.logOutBtn {
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.45rem 0.6rem;
+  background-color: #2563eb;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.logOutBtn:hover {
+   background-color: #1d4ed8;
+}
+
+.logout-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 120px 70px;
+  width: 380px;
+  height: 200px;  
+  background-color: white;
+   color: #111827;
+  border-radius: 12px;
+}
+.logout-success h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.75rem;
+}
+.logout-success button {
+  width: 70%;
+  height: 35px;
+  font-size: 22px;
+  background: #2563eb;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin: 10px;
+}
 
 @keyframes shimmer {
   0% {
