@@ -10,7 +10,7 @@
 // ➔ Optionally, add "Show password" toggle for both password fields
 // ➔ Consider password strength feedback (bonus)
 // ➔ Clear form or errors on successful signup
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -43,33 +43,9 @@ export const SignUp = () => {
 
   const navigate = useNavigate();
   
-  useEffect(() => {
-    const errors = validateForm();
-    setFormErrors(errors);
-    const noErrors = Object.keys(errors).length === 0;
-    const allFieldsFilled = fname && lname && email && password && repeatedPassword && checkbox;
-    setIsFormValid(noErrors && allFieldsFilled);
-  }, [fname, lname, email, password, repeatedPassword, checkbox]);
-
-  useEffect(() => {
-    if (serverMessage === "Account Created Successfully!") {
-      const timer = setTimeout(() => {
-        navigate("/");
-      }, 3000);
-      return () => {clearTimeout(timer);};
-    } 
-  }, [serverMessage, navigate]);
-
-  useEffect(() => {
-    if(hasServerError) {
-      alert("Network or Server Error!");
-      setHasServerError(false);
-    }
-  },[hasServerError]);
-
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const errors = {};
-    const trimmedEmail = email.trim().toLowerCase(); //useMemo !
+    const trimmedEmail = email.trim().toLowerCase(); 
     if (!fname.trim()) errors.fname = "First Name is Required";
     if (!lname.trim()) errors.lname = "Last Name is Required";
     if (!trimmedEmail) {
@@ -91,12 +67,37 @@ export const SignUp = () => {
       errors.checkbox = "Agree with terms and conditions";
     }
     return errors;
-  };
+  },[fname,lname,email,password,repeatedPassword,checkbox])
+
+  useEffect(() => {
+    const errors = validateForm();
+    setFormErrors(errors);
+    const noErrors = Object.keys(errors).length === 0;
+    const allFieldsFilled = fname && lname && email && password && repeatedPassword && checkbox;
+    setIsFormValid(noErrors && allFieldsFilled);
+  }, [fname, lname, email, password, repeatedPassword, checkbox,validateForm]);
+
+  useEffect(() => {
+    if (serverMessage === "Account Created Successfully!") {
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 3000);
+      return () => {clearTimeout(timer);};
+    } 
+  }, [serverMessage, navigate]);
+
+  useEffect(() => {
+    if(hasServerError) {
+      alert("Network or Server Error!");
+      setHasServerError(false);
+    }
+  },[hasServerError]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setTouched({
-      fname: true,
+      fname: true,  
       lname: true,
       email: true,
       password: true,
