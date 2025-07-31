@@ -1003,8 +1003,8 @@ body {
   flex-direction: column;
   margin: 70px 70px;
   width: 380px;
-  /* min-height: 400px; */
-  /* max-height: none;   */
+  min-height: 400px; 
+  /* max-height: none;    */
   background-color: white;
   color: #111827;
   border-radius: 12px;
@@ -1127,24 +1127,11 @@ body {
   margin: 10px 0px 0px;
 }
 
-
-
-
-
-
-
-
-
 .serverMsg {
   font-size: 16px;
   color: #111827;
   margin: 10px;
 }
-
-
-
-
-
 
 @keyframes shimmer {
   0% {
