@@ -1,13 +1,18 @@
 import http from "http";
 import fs from "fs";
+import bcrypt from "crypto"
 const PORT = 5000;
 
 const server = http.createServer((req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE,OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") {
-    res.writeHead(204);
+    res.writeHead(204, {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type"
+    });
     return res.end();
   }
 
@@ -108,6 +113,50 @@ const server = http.createServer((req, res) => {
         );
       });
     });
+  } else if(req.url === "/deleteAccount" && req.method === "DELETE") {
+    let body = ""
+    req.on("data", chunk => {
+      body += chunk.toString()
+    })
+    req.on("end", () => {
+      const deleteAccData = JSON.parse(body);
+      const userEmail = deleteAccData.email
+      const userPassword = deleteAccData.password
+      fs.readFile("./data/users.json","utf-8",(err,data) => {
+        if(err) {
+          res.writeHead(500, {"Content-Type" : "application/json"})
+          return res.end(JSON.stringify({
+            code: 500,
+            message: "Server Error."
+          }))
+        }
+        let dataFromJSON = JSON.parse(data)
+        const user = dataFromJSON.find((u) => u.email === userEmail)
+        if(!user || user.password !== userPassword) {
+          res.writeHead(401,{"Content-Type": "application/json"})
+          return res.end(JSON.stringify({
+            code:401,
+            message: "Unauthorizied | Invalid Credentials."
+          }))
+        } else {
+          dataFromJSON = dataFromJSON.filter(u => u.email !== userEmail)
+          fs.writeFile("./data/users.json",JSON.stringify(dataFromJSON,null,2),(err) => {
+            if(err) {
+              res.writeHead(500,{"Content-Type": "application/json"})
+              return res.end(JSON.stringify({
+                code: 500,
+                message: "Server Error."
+              }))
+            }
+          })
+          res.writeHead(200,{"Content-Type": "application/json"})
+          res.end(JSON.stringify({
+            code: 200,
+            message: "Account Deleted Successfully."
+          }))
+        }
+      })
+    })
   } else {
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ code: 404, message: "Not Found" }));
