@@ -15,13 +15,15 @@ export const DeleteAccount = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timerId = setTimeout(() => {
-      // navigate("/signUp")
-    }, 2500);
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [navigate]);
+    if(success) {
+      const timerId = setTimeout(() => {
+        navigate("/signUp")
+      }, 2500);
+      return () => {
+        clearTimeout(timerId);
+      };
+    }
+  }, [success,navigate]);
 
   const validEmailInput = useCallback((email) => {
     const trimmedEmail = email.trim().toLowerCase();
@@ -40,6 +42,14 @@ export const DeleteAccount = () => {
   };
 
   const handleSubmit = async () => {
+    if(!validEmailInput(email)) {
+      setEmailError("Invalid email format.")
+      return ;
+    }
+    if(!validPasswordInput(password)) {
+      setPasswordError("Password must be at least 6 characters")
+      return ;
+    }
     try {
       const response = await fetch("http://localhost:5000/deleteAccount", {
         method: "DELETE",
@@ -104,8 +114,10 @@ export const DeleteAccount = () => {
 
           <div className="deleteAccInput">
             <input
+              className="emailInput"
               type="email"
-              placeholder="Enter Your Email"
+              id="password"
+              placeholder="Enter your Email"
               onChange={(e) => {
                 const value = e.target.value;
                 setEmail(value);
@@ -115,8 +127,9 @@ export const DeleteAccount = () => {
               }}
               required
             />
-            {emailError && <p className="errorText">{emailError}</p>}
+            {emailError && <p className="errorText2">{emailError}</p>}
             <input
+              className="passwordInput"
               type={!showPasswd ? "password" : "text"}
               placeholder="Enter your Password"
               onChange={(e) => {
@@ -130,40 +143,47 @@ export const DeleteAccount = () => {
               }}
               required
             />
+            <button
+              className="deleteAccpasswordBtn"
+              type="button"
+              onClick={() => {
+                setShowPasswd(!showPasswd);
+              }}
+            >
+              {showPasswd ? (
+                <svg
+                  className="eye-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              ) : (
+                <svg
+                  className="eye-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+              )}
+            </button>
+            {passwordError && <p className="errorText2">{passwordError}</p>}
           </div>
 
-          <button
-            className="deleteAccpasswordBtn"
-            type="button"
-            onClick={() => {
-              setShowPasswd(!showPasswd);
-            }}
-          >
-            {showPasswd ? (
-              <svg
-                className="eye-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-            ) : (
-              <svg
-                className="eye-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
-                <line x1="1" y1="1" x2="23" y2="23" />
-              </svg>
-            )}
-          </button>
-          {passwordError && <p className="errorText">{passwordError}</p>}
+          <div className="checkbox-group">
+            <input type="checkbox" className="checkbox-input" />
+            <label htmlFor="confirm" className="checkbox-label">
+              I understand that this action cannot be undone
+            </label>
+          </div>
+
           <button
             className="confirmBtn"
             onClick={() => {
@@ -176,8 +196,35 @@ export const DeleteAccount = () => {
         </div>
       ) : (
         <>
-          <p>{serverMsg}</p>
-          <p>Navigating to Sign Up</p>
+          <div className="loading-container">
+        <div className="loading-card">
+          <div className="success-icon">
+            <div className="checkmark">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path
+                  d="M20 6L9 17l-5-5"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <div className="loading-ring"></div>
+          </div>
+
+          <div className="content">
+            <h2>{serverMsg}</h2>
+            <p>Navigating to Sign Up</p>
+          </div>
+
+          <div className="progress-container">
+            <div className="progress-bar">
+              <div className="progress-fill"></div>
+            </div>
+            <span className="countdown">Redirecting in 3 seconds</span>
+          </div>
+        </div>
+      </div>
         </>
       )}
     </React.Fragment>
