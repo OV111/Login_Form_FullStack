@@ -13,6 +13,15 @@ A simple login form built using React and JSX, featuring field validation, error
     - Password: Minimum 6 characters
     - Fields show errors after blur or invalid submission
     - Form can't be submitted until all fields are valid
+## Technologies Used
+- React.js
+- Node.js
+- CSS for styling
+- JSON for DB
+- Vite for development server
+- npm for package management
+
+
 
 ### 🛠️ Installation
 
