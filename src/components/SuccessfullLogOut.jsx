@@ -2,12 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Spin } from "antd";
-const SuccesFullLogOut = () => {
+export const SuccesFullLogOut = () => {
   const navigate = useNavigate();
   const [state, setState] = useState(false);
 
   const handleClick = () => {
-    setTimeout(() => {
+    localStorage.clear()
+    setTimeout(() => {  
       navigate("/signUp");
     }, 1500);
     setState(true);
@@ -18,10 +19,9 @@ const SuccesFullLogOut = () => {
       <div className="logout-success">
         <h2>Succesfull Log Out</h2>
         <button onClick={handleClick}>
-          {!state ? "Get Back to Sign Up" : <Spin>redirecting</Spin>}
+          {!state ? "Get Back to Sign Up" : <Spin>Redirecting</Spin>}
         </button>
       </div>
     </React.Fragment>
   );
 };
-export default SuccesFullLogOut;
