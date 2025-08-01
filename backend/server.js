@@ -1,3 +1,4 @@
+// Need to add hashing passowrds
 import http from "http";
 import fs from "fs";
 import bcrypt from "crypto"

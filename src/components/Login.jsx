@@ -12,12 +12,12 @@
 // ➔ Store passwords securely on backend (hashing later)
 // ➔ Show loading spinner during network request
 // import {useNavigate} from "react-router-dom"
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { SuccesFullLogin } from "./SuccesfullLogin";
 import { Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
@@ -31,7 +31,7 @@ export const Login = () => {
   const [loading,setLoading] = useState(false) 
   const [hasServerError,setHasServerError] = useState(false)
   
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   useEffect(() => {
     if(hasServerError) {
@@ -40,7 +40,7 @@ export const Login = () => {
     }
   },[hasServerError])
 
-  const validateEmail = (email) => {
+  const validateEmail = useCallback((email) => {
     const trimmedEmail = email.trim().toLowerCase();
     const [username, domain] = trimmedEmail.split("@");
     if (
@@ -51,7 +51,7 @@ export const Login = () => {
       return false;
     }
     return !!(username && domain && domain.includes("."));
-  };
+  },[])
 
   const validatePassword = (password) => {
     return password.trim().length >= 6;
@@ -66,7 +66,6 @@ export const Login = () => {
 
     const emailValid = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
     const passwordValid = validatePassword(password);
-
     setEmailError(emailValid ? "" : "Invalid email address");
     setPasswordError(passwordValid ? "" : "Invalid password length");
     if (email && password) {
@@ -86,6 +85,7 @@ export const Login = () => {
           setLoginSuccessful(resultFromServer.message);
           setState(true);
           setFname(resultFromServer.fname);
+          localStorage.setItem(email,password)
           // navigate("success",{state,fname})
         } else if (
           resultFromServer.message ===
@@ -170,9 +170,6 @@ export const Login = () => {
                   } else if(value.length < 6){
                     setPasswordError("Password must be contain 6 character at least");
                   } 
-                  // else {
-                    //   setPasswordError('Email or password is incorrect.')
-                    // }
                   }}
                   required
                   />
