@@ -15,15 +15,15 @@ export const DeleteAccount = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(success) {
+    if (success) {
       const timerId = setTimeout(() => {
-        navigate("/signUp")
+        navigate("/signUp");
       }, 2500);
       return () => {
         clearTimeout(timerId);
       };
     }
-  }, [success,navigate]);
+  }, [success, navigate]);
 
   const validEmailInput = useCallback((email) => {
     const trimmedEmail = email.trim().toLowerCase();
@@ -42,13 +42,13 @@ export const DeleteAccount = () => {
   };
 
   const handleSubmit = async () => {
-    if(!validEmailInput(email)) {
-      setEmailError("Invalid email format.")
-      return ;
+    if (!validEmailInput(email)) {
+      setEmailError("Invalid email format.");
+      return;
     }
-    if(!validPasswordInput(password)) {
-      setPasswordError("Password must be at least 6 characters")
-      return ;
+    if (!validPasswordInput(password)) {
+      setPasswordError("Password must be at least 6 characters");
+      return;
     }
     try {
       const response = await fetch("http://localhost:5000/deleteAccount", {
@@ -113,36 +113,34 @@ export const DeleteAccount = () => {
           </div>
 
           <div className="deleteAccInput">
-            <input
-              className="emailInput"
-              type="email"
-              id="password"
-              placeholder="Enter your Email"
-              onChange={(e) => {
-                const value = e.target.value;
-                setEmail(value);
-                validEmailInput(value)
-                  ? setEmailError("")
-                  : setEmailError("Invalid Email");
-              }}
-              required
-            />
-            {emailError && <p className="errorText2">{emailError}</p>}
-            <input
-              className="passwordInput"
-              type={!showPasswd ? "password" : "text"}
-              placeholder="Enter your Password"
-              onChange={(e) => {
-                const value = e.target.value;
-                setPassword(value);
-                validPasswordInput(value)
-                  ? setPasswordError("")
-                  : setPasswordError(
-                      "Password must contain at least 6 character!"
-                    );
-              }}
-              required
-            />
+            <div className="emailInput">
+              <input
+                type="email"
+                id="password"
+                placeholder="Enter your Email"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setEmail(value);
+                  validEmailInput(value)
+                    ? setEmailError("")
+                    : setEmailError("Invalid Email");
+                }}
+                required
+              />
+              {emailError && <p className="errorText2">{emailError}</p>}
+            </div>
+            <div className="passwordInput">
+              <input
+                type={!showPasswd ? "password" : "text"}
+                placeholder="Enter your Password"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setPassword(value);
+                  validPasswordInput(value)
+                    ? setPasswordError("")
+                    : setPasswordError(
+                        "Password must contain at least 6 character!"
+                      );
             <button
               className="deleteAccpasswordBtn"
               type="button"
@@ -174,7 +172,11 @@ export const DeleteAccount = () => {
                 </svg>
               )}
             </button>
-            {passwordError && <p className="errorText2">{passwordError}</p>}
+                }}
+                required
+              />
+              {passwordError && <p className="errorText2">{passwordError}</p>}
+            </div>
           </div>
 
           <div className="checkbox-group">
@@ -190,41 +192,41 @@ export const DeleteAccount = () => {
               handleSubmit();
             }}
           >
-            {success ? <Spin></Spin> : "Confirm"}
+            {!success ? "Confirm" : <Spin>Redirecting</Spin>}
           </button>
           {serverMsg && <p className="serverMsg">{serverMsg}</p>}
         </div>
       ) : (
         <>
           <div className="loading-container">
-        <div className="loading-card">
-          <div className="success-icon">
-            <div className="checkmark">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path
-                  d="M20 6L9 17l-5-5"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <div className="loading-ring"></div>
-          </div>
+            <div className="loading-card">
+              <div className="success-icon">
+                <div className="checkmark">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path
+                      d="M20 6L9 17l-5-5"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <div className="loading-ring"></div>
+              </div>
 
-          <div className="content">
-            <h2>{serverMsg}</h2>
-            <p>Navigating to Sign Up</p>
-          </div>
+              <div className="content">
+                <h2>{serverMsg}</h2>
+                <p>Navigating to Sign Up</p>
+              </div>
 
-          <div className="progress-container">
-            <div className="progress-bar">
-              <div className="progress-fill"></div>
+              <div className="progress-container">
+                <div className="progress-bar">
+                  <div className="progress-fill"></div>
+                </div>
+                <span className="countdown">Redirecting in 3 seconds</span>
+              </div>
             </div>
-            <span className="countdown">Redirecting in 3 seconds</span>
           </div>
-        </div>
-      </div>
         </>
       )}
     </React.Fragment>
