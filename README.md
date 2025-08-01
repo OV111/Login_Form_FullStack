@@ -22,7 +22,31 @@ A simple login form built using React and JSX, featuring field validation, error
 - Vite for development server
 - npm for package management
 
-
+### 📂 File Structure
+```
+backend/
+├── server.js
+|── data
+|    ├── users.json
+src/
+|── assets/                     
+├── components/            
+│   ├── LoginForm.jsx
+│   ├── SignUp.jsx  
+│   ├── DeleteAccount.jsx
+│   ├── ValidationMessage.jsx
+│   ├── SuccesfullLogin.jsx
+│   ├── SuccesfullSignUp.jsx
+│   └── SuccesfullLogout.jsx
+├── App.jsx
+├── main.jsx
+├── index.css
+├── index.html
+├── vite.config.js
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
 ### 🛠️ Installation
 
@@ -32,20 +56,9 @@ A simple login form built using React and JSX, featuring field validation, error
 - npm run dev
 
 ![Login Form Preview](src/assets/Screenshot.png)
+![Sign Up Form Preview](src/assets/Screenshot2.png)
+![Delete Account Preview](src/assets/Screenshot3.png)
 
-### 📂 File Structure
-```
-src/
-├── components/                                 
-│   ├── LoginForm.jsx
-│   ├── InputField.jsx  
-│   └── ErrorMessage.jsx
-├── App.jsx
-├── index.jsx
-├── styles.css
-└── assets/
-    └── Screenshot.png
-```
 
 ### 📄 License
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
