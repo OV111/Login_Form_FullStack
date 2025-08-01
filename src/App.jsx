@@ -12,7 +12,7 @@ export const App = () => {
           <Route path="/" element={<Login />}></Route>
           <Route path="/signUp" element={<SignUp />}></Route>
           <Route path="/logOut" element={<SuccesFullLogOut />}></Route>
-          <Route path="/DeleteAccount" element={<DeleteAccount />}></Route>
+          <Route path="/deleteAccount" element={<DeleteAccount />}></Route>
         </Routes>
       </BrowserRouter>
     </React.Fragment>
