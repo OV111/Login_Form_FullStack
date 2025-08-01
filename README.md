@@ -7,6 +7,7 @@ A simple login form built using React and JSX, featuring field validation, error
  - ❗ Displays error messages under each invalid input
  - 🔒 Submit button is disabled until all fields are valid
  - 💾 localStorage is used to persist user input even on refresh
+ - 📂 Data is stored in a JSON file for easy access(then will be hashed)
 
  * 🧪 Validation Logic
     - Email: Must be a valid email format
@@ -31,3 +32,20 @@ A simple login form built using React and JSX, featuring field validation, error
 - npm run dev
 
 ![Login Form Preview](src/assets/Screenshot.png)
+
+### 📂 File Structure
+```
+src/
+├── components/                                 
+│   ├── LoginForm.jsx
+│   ├── InputField.jsx  
+│   └── ErrorMessage.jsx
+├── App.jsx
+├── index.jsx
+├── styles.css
+└── assets/
+    └── Screenshot.png
+```
+
+### 📄 License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
