@@ -22,23 +22,21 @@ import { Spin } from "antd";
 export const Login = () => {
   const [showPasswd, setshowPasswd] = useState(false);
   const [email, setEmail] = useState(undefined);
-  const [fname,setFname] = useState("")
+  const [fname, setFname] = useState("");
   const [password, setPassword] = useState(undefined);
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [state, setState] = useState(false);
   const [loginSuccessful, setLoginSuccessful] = useState("");
-  const [loading,setLoading] = useState(false) 
-  const [hasServerError,setHasServerError] = useState(false)
-  
-  // const navigate = useNavigate()
+  const [loading, setLoading] = useState(false);
+  const [hasServerError, setHasServerError] = useState(false);
 
   useEffect(() => {
-    if(hasServerError) {
-      alert("Server Error | Not Responding")
-      setHasServerError(false)
+    if (hasServerError) {
+      alert("Server Error | Not Responding");
+      setHasServerError(false);
     }
-  },[hasServerError])
+  }, [hasServerError]);
 
   const validateEmail = useCallback((email) => {
     const trimmedEmail = email.trim().toLowerCase();
@@ -51,7 +49,7 @@ export const Login = () => {
       return false;
     }
     return !!(username && domain && domain.includes("."));
-  },[])
+  }, []);
 
   const validatePassword = (password) => {
     return password.trim().length >= 6;
@@ -62,7 +60,7 @@ export const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
 
     const emailValid = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email);
     const passwordValid = validatePassword(password);
@@ -85,27 +83,22 @@ export const Login = () => {
           setLoginSuccessful(resultFromServer.message);
           setState(true);
           setFname(resultFromServer.fname);
-          localStorage.setItem(email,password)
-          // navigate("success",{state,fname})
-        } else if (
-          resultFromServer.message ===
-          "Unauthorized | credentials are missing or Invalid." &&
-          resultFromServer.status === 401
-        ) {
+          localStorage.setItem(email);
+        } else if (resultFromServer.status === 401) {
           setState(false);
-          setPasswordError('Email or password is incorrect.')
-        } 
+          setPasswordError("Email or password is incorrect.");
+        }
       } catch (err) {
         console.log(err.message);
-        setHasServerError(true)
+        setHasServerError(true);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     } else {
-      setLoading(false)
+      setLoading(false);
     }
   };
-  
+
   return (
     <React.Fragment>
       {!state ? (
@@ -167,19 +160,21 @@ export const Login = () => {
                   setPassword(value);
                   if (validatePassword(value)) {
                     setPasswordError("");
-                  } else if(value.length < 6){
-                    setPasswordError("Password must be contain 6 character at least");
-                  } 
-                  }}
-                  required
-                  />
-                <button
-                  className="passwordBtn"
-                  type="button"
-                  onClick={() => {
+                  } else if (value.length < 6) {
+                    setPasswordError(
+                      "Password must be contain 6 character at least",
+                    );
+                  }
+                }}
+                required
+              />
+              <button
+                className="passwordBtn"
+                type="button"
+                onClick={() => {
                   setshowPasswd(!showPasswd);
                 }}
-                >
+              >
                 {showPasswd ? (
                   <svg
                     className="eye-icon"
@@ -204,16 +199,10 @@ export const Login = () => {
                   </svg>
                 )}
               </button>
-                  {passwordError && <p className="errorText">{passwordError}</p>}
+              {passwordError && <p className="errorText">{passwordError}</p>}
             </div>
             <div className="forgetPswd">
-              <input
-                type="checkbox"
-                className="checkbox"
-                onClick={() => {
-                  
-                }}
-              />
+              <input type="checkbox" className="checkbox" onClick={() => {}} />
               <p>Remember for 30 days</p>
               <a href="/">Forgot password?</a>
             </div>
@@ -224,9 +213,9 @@ export const Login = () => {
               <button
                 className="signinBtn"
                 type="submit"
-                disabled={disableBtn() }
-                >
-              {loading ? <Spin size="medium"></Spin>: "Sign in"}
+                disabled={disableBtn()}
+              >
+                {loading ? <Spin size="medium"></Spin> : "Sign in"}
               </button>
               <p>
                 Don't have an account? <Link to="/signUp">Create account</Link>
@@ -234,11 +223,15 @@ export const Login = () => {
             </div>
           </form>
         </div>
-      ) : ( 
+      ) : (
         <React.Fragment>
-          <SuccesFullLogin successMsg={loginSuccessful} fname={fname} email={email} />
-        </React.Fragment> 
-       )} 
+          <SuccesFullLogin
+            successMsg={loginSuccessful}
+            fname={fname}
+            email={email}
+          />
+        </React.Fragment>
+      )}
     </React.Fragment>
   );
 };
